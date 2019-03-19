@@ -14,9 +14,27 @@ class App extends Component {
         }
       this.startOrStopCountDown = this.startOrStopCountDown.bind(this);
       this.resetCountDown = this.resetCountDown.bind(this);
-
+      this.incrementBreakLength = this.incrementBreakLength.bind(this);
+      this.incrementSessionLength = this.incrementSessionLength.bind(this);
+      this.decrementBreakLength = this.decrementBreakLength.bind(this);
+      this.decrementSessionLength = this.decrementSessionLength.bind(this);
     }
 
+    incrementBreakLength = () => {
+        if (this.state.breakLength < 60) this.setState((prevState) => ({ breakLength: prevState.breakLength + 1 }));
+    }
+
+    incrementSessionLength = () => {
+        if (this.state.sessionLength < 60) this.setState((prevState) => ({ sessionLength: prevState.sessionLength + 1 }))
+    }
+
+    decrementBreakLength = () => {
+        if (this.state.breakLength > 1) this.setState((prevState) => ({ breakLength: prevState.breakLength - 1 }))
+    }
+
+    decrementSessionLength = () => {
+        if (this.state.sessionLength > 1) this.setState((prevState) => ({ sessionLength: prevState.sessionLength - 1 }))
+    }
 
     updateCountDown = () => {
 
