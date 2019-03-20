@@ -21,19 +21,19 @@ class App extends Component {
     }
 
     incrementBreakLength = () => {
-        if (this.state.breakLength < 60) this.setState((prevState) => ({ breakLength: prevState.breakLength + 1 }));
+        if (this.state.breakLength < 60 && this.state.stopCountDown === true) this.setState((prevState) => ({ breakLength: prevState.breakLength + 1 }));
     }
 
     incrementSessionLength = () => {
-        if (this.state.sessionLength < 60) this.setState((prevState) => ({ sessionLength: prevState.sessionLength + 1 }))
+        if (this.state.sessionLength < 60 && this.state.stopCountDown === true) this.setState((prevState) => ({ sessionLength: prevState.sessionLength + 1 }))
     }
 
     decrementBreakLength = () => {
-        if (this.state.breakLength > 1) this.setState((prevState) => ({ breakLength: prevState.breakLength - 1 }))
+        if (this.state.breakLength > 1 && this.state.stopCountDown === true) this.setState((prevState) => ({ breakLength: prevState.breakLength - 1 }))
     }
 
     decrementSessionLength = () => {
-        if (this.state.sessionLength > 1) this.setState((prevState) => ({ sessionLength: prevState.sessionLength - 1 }))
+        if (this.state.sessionLength > 1 && this.state.stopCountDown === true) this.setState((prevState) => ({ sessionLength: prevState.sessionLength - 1 }))
     }
 
     updateCountDown = () => {
