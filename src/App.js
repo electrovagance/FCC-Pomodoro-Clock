@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import Timer from './components/Timer';
+import StartButton from './components/StartButton'
+import ResetButton from './components/ResetButton'
+import ChangeTimeButton from './components/ChangeTimeButton'
+import TimeLabel from './components/TimeLabel'
 import './App.css';
 
 class App extends Component {
@@ -100,23 +105,20 @@ class App extends Component {
         return (
             <div id="pomodoro-app">
                 <h1>Pomodoro Clock</h1>
-                <p id="timer-label">{this.state.stopCountDown === false ? 'Counting down...' : 'Session inactive'}</p>
-                <p id="time-left">{this.state.minutes < 10 ? "0" + this.state.minutes : this.state.minutes}:{this.state.seconds < 10 ? "0" + this.state.seconds : this.state.seconds}</p>
                 <div>
-                    <button id="start_stop" onClick={this.startOrStopCountDown}>
-                        {this.state.stopCountDown === true ? '▻' : '❚❚'}
-                    </button>
-                    <button id="reset" onClick={this.resetCountDown}>↺</button>
+                    <Timer minutes={this.state.minutes} seconds={this.state.seconds} stop={this.state.stopCountDown} />
+                    <StartButton handleClick={this.startOrStopCountDown} stop={this.state.stopCountDown} />
+                    <ResetButton handleClick={this.resetCountDown} />
                 </div>
                 <div>
-                    <h3 id="break-label">Break Length: <span id="break-length">{this.state.breakLength}</span> min.</h3>
-                    <button id="break-increment" onClick={this.incrementBreakLength}>↑</button>
-                    <button id="break-decrement" onClick={this.decrementBreakLength}>↓</button>
+                    <TimeLabel name="break" length={this.state.breakLength}/>
+                    <ChangeTimeButton handleClick={this.incrementBreakLength} idName="break-increment" symbol="↑"/>
+                    <ChangeTimeButton handleClick={this.decrementBreakLength} idName="break-decrement" symbol="↓" />
                 </div>
                 <div>
-                    <h3 id="session-label">Session Length: <span id="session-length">{this.state.sessionLength}</span> min.</h3>
-                    <button id="session-increment" onClick={this.incrementSessionLength}>↑</button>
-                    <button id="session-decrement" onClick={this.decrementSessionLength}>↓</button>
+                    <TimeLabel name="session" length={this.state.sessionLength} />
+                    <ChangeTimeButton handleClick={this.incrementSessionLength} idName="session-increment" symbol="↑"/>
+                    <ChangeTimeButton handleClick={this.decrementSessionLength} idName="session-decrement" symbol="↓" />
                 </div>
             </div>
         )
