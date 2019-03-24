@@ -10,12 +10,13 @@ class App extends Component {
   constructor(props) {
         super(props);
         this.state = {
-            totalSeconds: 1500, // total seconds (25 minutes * 60 seconds)
+            totalSeconds: 10, // total seconds (25 minutes * 60 seconds)
             minutes: 25,
             seconds: 0,
-            breakLength: 5,
+            breakLength: 1,
             sessionLength: 25,
-            stopCountDown: true
+            stopCountDown: true,
+            startBreakSession: false
         }
       this.startOrStopCountDown = this.startOrStopCountDown.bind(this);
       this.resetCountDown = this.resetCountDown.bind(this);
@@ -26,7 +27,9 @@ class App extends Component {
     }
 
     incrementBreakLength = () => {
-        if (this.state.breakLength < 60 && this.state.stopCountDown === true) this.setState((prevState) => ({ breakLength: prevState.breakLength + 1 }));
+        if (this.state.breakLength < 60 && this.state.stopCountDown === true) {
+            this.setState((prevState) => ({ breakLength: prevState.breakLength + 1 }));
+        }
     }
 
     incrementSessionLength = () => {
@@ -41,28 +44,82 @@ class App extends Component {
         if (this.state.sessionLength > 1 && this.state.stopCountDown === true) this.setState((prevState) => ({ sessionLength: prevState.sessionLength - 1 }))
     }
 
-    updateCountDown = () => {
-
-    }
-
     startOrStopCountDown = () => {
         if (this.state.stopCountDown) {
-            // setInterval calls countdown function every second
             this.setState({ stopCountDown: false });
+            // setInterval calls countdown function every second
             this.timer = setInterval(
-                () => this.startCountdown(),
+                () => this.updateTimer(),
                 1000
             );
-        } else {
+        } 
+        else {
             this.setState({ stopCountDown: true });
             this.stopCountDown();
         }
     }
 
+    switchToBreakSession = () => {
+        this.setState({
+            totalSeconds: this.state.breakLength * 60,
+            minutes: this.state.breakLength,
+            seconds: 0,
+            stopCountDown: true,
+            startBreakSession: true
+        })
+    }
+
+    switchToRegularSession = () => {
+        this.setState({
+            totalSeconds: this.state.sessionLength * 60,
+            minutes: this.state.sessionLength,
+            seconds: 0,
+            stopCountDown: true,
+            startBreakSession: false
+        })
+    }
+
+    updateTimer = () => {
+        // save state in local variables
+        let tempMin = this.state.minutes,
+            tempSec = this.state.seconds,
+            totalSecs = this.state.totalSeconds;
+
+        // update variables
+        if (this.state.startBreakSession || !this.state.stopCountDown) totalSecs--;
+        tempMin = parseInt(totalSecs / 60);
+        tempSec = parseInt(totalSecs % 60);
+
+        console.log(tempMin + " " + tempSec)
+        // update state with new time variables
+        this.setState({
+            totalSeconds: totalSecs,
+            minutes: tempMin,
+            seconds: tempSec
+        });
+
+        // stops countdown if seconds and minutes are down to zero
+        if (this.state.minutes === 0 && this.state.seconds === 0 && !this.state.startBreakSession) {
+            clearInterval(this.timer);
+            
+            // checks if countdown needs to be switched to break time and updates state accordingly
+            this.switchToBreakSession();
+            this.startOrStopCountDown();
+        } 
+        else if (this.state.minutes === 0 && this.state.seconds === 0 && !this.state.stopCountDown) {
+            clearInterval(this.timer);
+
+            // checks if countdown needs to be switched to break time and updates state accordingly
+            this.switchToRegularSession();
+            this.startOrStopCountDown();
+        }
+    }
+
     resetCountDown = () => {
+        //stop timer
         clearInterval(this.timer);
         this.setState({ 
-            totalSeconds: 1500, // total seconds (25 minutes * 60 seconds)
+            totalSeconds: 1500,                                                                                       
             minutes: 25,
             seconds: 0,
             breakLength: 5,
@@ -74,31 +131,6 @@ class App extends Component {
     stopCountDown = () => {
         clearInterval(this.timer);
         this.setState({ stopCountDown: true })
-    }
-
-    startCountdown = () => {
-        // save state in local variables
-        let tempMin = this.state.minutes,
-            tempSec = this.state.seconds,
-            totalSeconds = this.state.totalSeconds;
-
-        // update variables
-        tempMin = parseInt(totalSeconds/60);
-        tempSec = parseInt(totalSeconds%60);
-        totalSeconds--;
-
-        // update state with new time variables
-        this.setState({
-            totalSeconds: totalSeconds,
-            minutes: tempMin,
-            seconds: tempSec
-        });
-
-        // stops countdown if seconds and minutes are down to zero, stops countdown and updates state in app
-        if (this.state.minutes === 0 && this.state.seconds === 0) {
-            this.resetCountDown();
-        }
-
     }
 
     render() {
