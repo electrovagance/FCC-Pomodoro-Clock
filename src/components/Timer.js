@@ -5,7 +5,7 @@ function Timer(props) {
         <div>
             <p id="timer-label">
             {props.stop
-                ? 'start countdown!'
+                ? 'countdown not started/paused'
                 : props.break
                         ? 'break timer'
                         : 'counting down...'

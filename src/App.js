@@ -90,7 +90,6 @@ class App extends Component {
         tempMin = parseInt(totalSecs / 60);
         tempSec = parseInt(totalSecs % 60);
 
-        console.log(tempMin + " " + tempSec)
         // update state with new time variables
         this.setState({
             totalSeconds: totalSecs,
@@ -102,7 +101,7 @@ class App extends Component {
         if (this.state.minutes === 0 && this.state.seconds === 0 && !this.state.startBreakSession) {
             clearInterval(this.timer);
             setTimeout(() => {
-                // checks if countdown needs to be switched to break time and updates state accordingly
+                this.playAudio();
                 this.switchToBreakSession();
                 this.startOrStopCountDown();
             }, 990);
@@ -110,7 +109,7 @@ class App extends Component {
         else if (this.state.minutes === 0 && this.state.seconds === 0 && !this.state.stopCountDown) {
             clearInterval(this.timer);
             setTimeout(() => {
-                // checks if countdown needs to be switched to break time and updates state accordingly
+                this.playAudio();
                 this.switchToRegularSession();
                 this.startOrStopCountDown();
             }, 990);
@@ -135,10 +134,20 @@ class App extends Component {
         this.setState({ stopCountDown: true })
     }
 
+    playAudio = () => {
+        const alarmSound = document.getElementById('beep');
+        alarmSound.play();
+    }
+
     render() {
         return (
             <div id="pomodoro-app">
                 <h1>Pomodoro Clock</h1>
+                <audio 
+                    id="beep" 
+                    src="https://freesound.org/data/previews/198/198841_285997-lq.mp3" 
+                    type="audio/mpeg">
+                </audio>
                 <div>
                     <Timer minutes={this.state.minutes} seconds={this.state.seconds} stop={this.state.stopCountDown} break={this.state.startBreakSession}/>
                     <StartButton handleClick={this.startOrStopCountDown} stop={this.state.stopCountDown} />
