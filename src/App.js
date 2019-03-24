@@ -13,7 +13,7 @@ class App extends Component {
             totalSeconds: 10, // total seconds (25 minutes * 60 seconds)
             minutes: 25,
             seconds: 0,
-            breakLength: 1,
+            breakLength: 5,
             sessionLength: 25,
             stopCountDown: true,
             startBreakSession: false
@@ -101,17 +101,19 @@ class App extends Component {
         // stops countdown if seconds and minutes are down to zero
         if (this.state.minutes === 0 && this.state.seconds === 0 && !this.state.startBreakSession) {
             clearInterval(this.timer);
-            
-            // checks if countdown needs to be switched to break time and updates state accordingly
-            this.switchToBreakSession();
-            this.startOrStopCountDown();
+            setTimeout(() => {
+                // checks if countdown needs to be switched to break time and updates state accordingly
+                this.switchToBreakSession();
+                this.startOrStopCountDown();
+            }, 990);
         } 
         else if (this.state.minutes === 0 && this.state.seconds === 0 && !this.state.stopCountDown) {
             clearInterval(this.timer);
-
-            // checks if countdown needs to be switched to break time and updates state accordingly
-            this.switchToRegularSession();
-            this.startOrStopCountDown();
+            setTimeout(() => {
+                // checks if countdown needs to be switched to break time and updates state accordingly
+                this.switchToRegularSession();
+                this.startOrStopCountDown();
+            }, 990);
         }
     }
 
@@ -138,7 +140,7 @@ class App extends Component {
             <div id="pomodoro-app">
                 <h1>Pomodoro Clock</h1>
                 <div>
-                    <Timer minutes={this.state.minutes} seconds={this.state.seconds} stop={this.state.stopCountDown} />
+                    <Timer minutes={this.state.minutes} seconds={this.state.seconds} stop={this.state.stopCountDown} break={this.state.startBreakSession}/>
                     <StartButton handleClick={this.startOrStopCountDown} stop={this.state.stopCountDown} />
                     <ResetButton handleClick={this.resetCountDown} />
                 </div>
