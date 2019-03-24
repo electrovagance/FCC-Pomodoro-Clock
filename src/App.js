@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props) {
         super(props);
         this.state = {
-            totalSeconds: 10, // total seconds (25 minutes * 60 seconds)
+            totalSeconds: 1500, // total seconds (25 minutes * 60 seconds)
             minutes: 25,
             seconds: 0,
             breakLength: 5,
@@ -27,21 +27,36 @@ class App extends Component {
     }
 
     incrementBreakLength = () => {
-        if (this.state.breakLength < 60 && this.state.stopCountDown === true) {
-            this.setState((prevState) => ({ breakLength: prevState.breakLength + 1 }));
-        }
+        if (this.state.breakLength < 60 && this.state.stopCountDown === true)
+            this.setState((prevState) => ({ 
+                breakLength: prevState.breakLength + 1
+        }))
     }
 
+
     incrementSessionLength = () => {
-        if (this.state.sessionLength < 60 && this.state.stopCountDown === true) this.setState((prevState) => ({ sessionLength: prevState.sessionLength + 1 }))
+        if (this.state.sessionLength < 60 && this.state.stopCountDown === true) 
+        this.setState((prevState) => ({ 
+            sessionLength: prevState.sessionLength + 1,
+            minutes: prevState.minutes + 1,
+            totalSeconds: prevState.totalSeconds + 60
+         }))
     }
 
     decrementBreakLength = () => {
-        if (this.state.breakLength > 1 && this.state.stopCountDown === true) this.setState((prevState) => ({ breakLength: prevState.breakLength - 1 }))
+        if (this.state.breakLength > 1 && this.state.stopCountDown === true) 
+        this.setState((prevState) => ({ 
+            breakLength: prevState.breakLength - 1
+        }))
     }
 
     decrementSessionLength = () => {
-        if (this.state.sessionLength > 1 && this.state.stopCountDown === true) this.setState((prevState) => ({ sessionLength: prevState.sessionLength - 1 }))
+        if (this.state.sessionLength > 1 && this.state.stopCountDown === true) 
+        this.setState((prevState) => ({ 
+            sessionLength: prevState.sessionLength - 1,
+            minutes: prevState.minutes - 1,
+            totalSeconds: prevState.totalSeconds - 60
+        }))
     }
 
     startOrStopCountDown = () => {
@@ -119,6 +134,7 @@ class App extends Component {
     resetCountDown = () => {
         //stop timer
         clearInterval(this.timer);
+        this.resetAudio();
         this.setState({ 
             totalSeconds: 1500,                                                                                       
             minutes: 25,
@@ -137,6 +153,11 @@ class App extends Component {
     playAudio = () => {
         const alarmSound = document.getElementById('beep');
         alarmSound.play();
+    }
+
+    resetAudio = () => {
+        const alarmSound = document.getElementById('beep');
+        alarmSound.load();
     }
 
     render() {
