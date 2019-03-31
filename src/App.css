@@ -1,33 +1,66 @@
-.App {
+/* 
+  Minimal CSS reset:
+  https://alligator.io/css/minimal-css-reset/ 
+*/
+
+html {
+  box-sizing: border-box;
+  font-size: 24px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: 'Work Sans', sans-serif;
+  text-transform: uppercase;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+#root {
+  width: 100%;
+}
+
+#pomodoro-app {
+  max-width: 600px;
+  margin: 0 auto;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  margin: 0 0 20px 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#time-left {
+  font-size: 4em;
+  font-variant-numeric: tabular-nums;
 }
 
-.App-link {
-  color: #61dafb;
+button {
+  margin: 10px;
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button i {
+  font-size: 2em;
+}
+
+#break-label {
+    margin: 30px 0 0 0;
 }

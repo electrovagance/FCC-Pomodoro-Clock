@@ -7,7 +7,7 @@ import TimeLabel from './components/TimeLabel'
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {
             totalSeconds: 1500, // total seconds (25 minutes * 60 seconds)
@@ -18,45 +18,45 @@ class App extends Component {
             stopCountDown: true,
             startBreakSession: false
         }
-      this.startOrStopCountDown = this.startOrStopCountDown.bind(this);
-      this.resetCountDown = this.resetCountDown.bind(this);
-      this.incrementBreakLength = this.incrementBreakLength.bind(this);
-      this.incrementSessionLength = this.incrementSessionLength.bind(this);
-      this.decrementBreakLength = this.decrementBreakLength.bind(this);
-      this.decrementSessionLength = this.decrementSessionLength.bind(this);
+        this.startOrStopCountDown = this.startOrStopCountDown.bind(this);
+        this.resetCountDown = this.resetCountDown.bind(this);
+        this.incrementBreakLength = this.incrementBreakLength.bind(this);
+        this.incrementSessionLength = this.incrementSessionLength.bind(this);
+        this.decrementBreakLength = this.decrementBreakLength.bind(this);
+        this.decrementSessionLength = this.decrementSessionLength.bind(this);
     }
 
     incrementBreakLength = () => {
         if (this.state.breakLength < 60 && this.state.stopCountDown === true)
-            this.setState((prevState) => ({ 
+            this.setState((prevState) => ({
                 breakLength: prevState.breakLength + 1
-        }))
+            }))
     }
 
 
     incrementSessionLength = () => {
-        if (this.state.sessionLength < 60 && this.state.stopCountDown === true) 
-        this.setState((prevState) => ({ 
-            sessionLength: prevState.sessionLength + 1,
-            minutes: prevState.minutes + 1,
-            totalSeconds: prevState.totalSeconds + 60
-         }))
+        if (this.state.sessionLength < 60 && this.state.stopCountDown === true)
+            this.setState((prevState) => ({
+                sessionLength: prevState.sessionLength + 1,
+                minutes: prevState.minutes + 1,
+                totalSeconds: prevState.totalSeconds + 60
+            }))
     }
 
     decrementBreakLength = () => {
-        if (this.state.breakLength > 1 && this.state.stopCountDown === true) 
-        this.setState((prevState) => ({ 
-            breakLength: prevState.breakLength - 1
-        }))
+        if (this.state.breakLength > 1 && this.state.stopCountDown === true)
+            this.setState((prevState) => ({
+                breakLength: prevState.breakLength - 1
+            }))
     }
 
     decrementSessionLength = () => {
-        if (this.state.sessionLength > 1 && this.state.stopCountDown === true) 
-        this.setState((prevState) => ({ 
-            sessionLength: prevState.sessionLength - 1,
-            minutes: prevState.minutes - 1,
-            totalSeconds: prevState.totalSeconds - 60
-        }))
+        if (this.state.sessionLength > 1 && this.state.stopCountDown === true)
+            this.setState((prevState) => ({
+                sessionLength: prevState.sessionLength - 1,
+                minutes: prevState.minutes - 1,
+                totalSeconds: prevState.totalSeconds - 60
+            }))
     }
 
     startOrStopCountDown = () => {
@@ -67,7 +67,7 @@ class App extends Component {
                 () => this.updateTimer(),
                 1000
             );
-        } 
+        }
         else {
             this.setState({ stopCountDown: true });
             this.stopCountDown();
@@ -76,7 +76,7 @@ class App extends Component {
 
     switchToBreakSession = () => {
         this.setState({
-            totalSeconds: this.state.breakLength * 60,
+            totalSeconds: this.state.breakLength * 60 - 1,
             minutes: this.state.breakLength,
             seconds: 0,
             stopCountDown: true,
@@ -120,7 +120,7 @@ class App extends Component {
                 this.switchToBreakSession();
                 this.startOrStopCountDown();
             }, 990);
-        } 
+        }
         else if (this.state.minutes === 0 && this.state.seconds === 0 && !this.state.stopCountDown) {
             clearInterval(this.timer);
             setTimeout(() => {
@@ -135,8 +135,8 @@ class App extends Component {
         //stop timer
         clearInterval(this.timer);
         this.resetAudio();
-        this.setState({ 
-            totalSeconds: 1500,                                                                                       
+        this.setState({
+            totalSeconds: 1500,
             minutes: 25,
             seconds: 0,
             breakLength: 5,
@@ -164,29 +164,28 @@ class App extends Component {
         return (
             <div id="pomodoro-app">
                 <h1>Pomodoro Clock</h1>
-                <audio 
-                    id="beep" 
-                    src="https://freesound.org/data/previews/198/198841_285997-lq.mp3" 
+                <audio
+                    id="beep"
+                    src="https://freesound.org/data/previews/198/198841_285997-lq.mp3"
                     type="audio/mpeg">
                 </audio>
                 <div>
-                    <Timer minutes={this.state.minutes} seconds={this.state.seconds} stop={this.state.stopCountDown} break={this.state.startBreakSession}/>
+                    <Timer minutes={this.state.minutes} seconds={this.state.seconds} stop={this.state.stopCountDown} break={this.state.startBreakSession} />
                     <StartButton handleClick={this.startOrStopCountDown} stop={this.state.stopCountDown} />
                     <ResetButton handleClick={this.resetCountDown} />
                 </div>
                 <div>
-                    <TimeLabel name="break" length={this.state.breakLength}/>
-                    <ChangeTimeButton handleClick={this.incrementBreakLength} idName="break-increment" symbol="↑"/>
-                    <ChangeTimeButton handleClick={this.decrementBreakLength} idName="break-decrement" symbol="↓" />
+                    <TimeLabel name="break" length={this.state.breakLength} />
+                    <ChangeTimeButton handleClick={this.incrementBreakLength} idName="break-increment" symbol="fas fa-arrow-up" />
+                    <ChangeTimeButton handleClick={this.decrementBreakLength} idName="break-decrement" symbol="fas fa-arrow-down" />
                 </div>
                 <div>
                     <TimeLabel name="session" length={this.state.sessionLength} />
-                    <ChangeTimeButton handleClick={this.incrementSessionLength} idName="session-increment" symbol="↑"/>
-                    <ChangeTimeButton handleClick={this.decrementSessionLength} idName="session-decrement" symbol="↓" />
+                    <ChangeTimeButton handleClick={this.incrementSessionLength} idName="session-increment" symbol="fas fa-arrow-up" />
+                    <ChangeTimeButton handleClick={this.decrementSessionLength} idName="session-decrement" symbol="fas fa-arrow-down" />
                 </div>
             </div>
         )
     }
 }
-
 export default App;
